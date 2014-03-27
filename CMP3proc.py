@@ -12,7 +12,7 @@ class CMP3proc:
   m_pAlsaDev   = None
   m_pMP3Thread = None
   m_strMP3Dir  = ""
-  m_nVolume    = 60
+  m_nVolume    = 0
 
   def __init__(self):
     self.initConfig()
@@ -23,8 +23,12 @@ class CMP3proc:
   def initConfig(self):
     print("Reading configuration file")
     config = ConfigParser.RawConfigParser()
+    
     config.read("/home/mp3player/mp3player/settings.cfg")
-    self.m_strMP3Dir = config.get("settings", "mp3dir")
+    # config.read("settings.cfg")
+    
+    self.m_strMP3Dir  = config.get("settings", "mp3dir")
+    self.m_nVolume    = config.getint("settings", "default_vol")
 
 
   def initFileList(self):
@@ -128,19 +132,20 @@ class CMP3proc:
   # def next(self):
   def next(self):
     print("Skipping mp3")
-    if(self.m_nPlayIndex < len(self.m_arrMP3) - 1):
-      self.m_nPlayIndex += 1
-    else:
-      return
 
     # stop the thread.
     self.stop()
 
     # update index by one. 
+    if(self.m_nPlayIndex < len(self.m_arrMP3) - 1):
+      self.m_nPlayIndex += 1
+    else:
+      return
 
     # call play. 
     self.play()
     print("Mp3 skipped. Playing next mp3")
+
 
   # def previous(self):
   def previous(self):

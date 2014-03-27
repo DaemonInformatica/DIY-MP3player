@@ -93,7 +93,7 @@ def handle_next(gpio_id, value):
 
 
 def main():
-  print("Master, I am here to serve you!")
+  print("Starting MP3player.")
   initMP3()
   initGPIO()
   
